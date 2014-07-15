@@ -1,5 +1,6 @@
 *.changes
 *.image
+*.sources
 *.log
 .DS_Store
 package-cache/
