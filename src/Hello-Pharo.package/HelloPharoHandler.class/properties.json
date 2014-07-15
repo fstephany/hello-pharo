@@ -1,0 +1,15 @@
+{
+	"category" : "Hello-Pharo",
+	"classinstvars" : [
+		"current",
+		"server" ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "FrancoisStephany 7/15/2014 17:04",
+	"instvars" : [
+		 ],
+	"name" : "HelloPharoHandler",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }
