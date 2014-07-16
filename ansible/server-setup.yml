@@ -6,24 +6,28 @@
 - name: <<<< Setup a server for Pharo app >>>>
   hosts: web
   remote_user: azureuser
-  stock_images_path: /home/{{remote_user}}/stock-images
-  image_url: http://files.pharo.org/image/30/latest.zip
-  source_url: http://files.pharo.org/sources/PharoV30.sources.zip
+
+  vars:
+    stock_images_path: /home/azureuser/stock-images
+    image_url: http://files.pharo.org/image/30/latest.zip
+    source_url: http://files.pharo.org/sources/PharoV30.sources.zip
 
   tasks:
     - name: Install Pharo's PPA
-      shell: add-apt-repository ppa:pharo/stable
+      apt_repository: repo='ppa:pharo/stable'
       sudo: yes
 
     - name: Add i386 architecture (Pharo is 32bits)
       shell: dpkg --add-architecture i386
       sudo: yes
 
-    - name: Update and Dist-upgrade
+    - name: apt update and dist-upgrade
       apt: update_cache=yes upgrade=dist
+      sudo: yes
 
-    - name: add several users
+    - name: add necessary packages with apt-get
       apt: pkg={{item}} state=latest update_cache=true
+      sudo: yes
       with_items:
         - git
         - pharo-launcher
@@ -31,11 +35,11 @@
     - name: download latest Pharo 3.0 stock-images
       get_url: url={{item}} dest={{stock_images_path}}
       with_items:
-        - {{image_url}}
-        - {{source_url}}
+        - "{{image_url}}"
+        - "{{source_url}}"
 
     - name: unzip image and source files.
-      unarchive: src={{item}} dest={{stock_images_path}}
+      shell: unzip {{item}} -d {{stock_images_path}}
       with_items:
-        - {{stock_images_path}}/PharoV30.sources.zip
-        - {{stock_images_path}}/latest.zip
+        - "{{stock_images_path}}/latest.zip"
+        - "{{stock_images_path}}/PharoV30.sources.zip"

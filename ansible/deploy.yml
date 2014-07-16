@@ -9,23 +9,30 @@
 
   vars:
     repo: https://github.com/fstephany/hello-pharo.git
-    stock_images_path: /home/{{azureuser}}/stock-images
+    stock_images_path: /home/azureuser/stock-images
     app_path: /home/azureuser/apps/hello-pharo
     repo_path: "{{ app_path }}/base-repo"
 
   tasks:
     - name: Store the current timestamp
-      shell: date '+%F.%H:%M:%S'
+      shell: date '+%F.%H%M%S'
       register: current_time
 
     - name: Create directory for current deploy
-      file: path="{{ app_path }}/{{ current_time.stdout }}" state=directory
+      file: path="{{app_path}}/releases/{{current_time.stdout}}" state=directory
 
     - name: Get/Update the git repository
-      git: repo="{{ repo }}" dest="{{ repo_path }}"
+      git: repo={{repo}} dest={{repo_path}}
 
     - name: Copy the content of the repo into the current deploy directory
-      file: path="{{ repo_path }}" dest="{{app_path}}/{{ current_time.stdout }}" state=directory recurse=yes
+      shell: cp -r {{repo_path}}/* {{app_path}}/releases/{{current_time.stdout}}
 
     - name: Copy the pharo virgin image/changes/source into the deploy directory
-      file: path="{{ stock_images_path }}"
+      shell: cp {{stock_images_path}}/{{item}} {{app_path}}/releases/{{current_time.stdout}}/
+      with_items:
+        - Pharo-30852.image
+        - Pharo-30852.changes
+        - PharoV30.sources
+
+    - name: 'Create symoblic link for the current release'
+      file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
