@@ -29,8 +29,10 @@
       apt: pkg={{item}} state=latest update_cache=true
       sudo: yes
       with_items:
+        - nginx
         - git
-        - pharo-launcher
+        - pharo-vm-core
+        #- pharo-launcher
 
     - name: download latest Pharo 3.0 stock-images
       get_url: url={{item}} dest={{stock_images_path}}

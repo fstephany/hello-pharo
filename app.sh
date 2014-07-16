@@ -5,46 +5,116 @@
 function usage() {
     cat <<END
 Usage: $0 <command> <image>
-    manage a Smalltalk server
+    manage a Smalltalk server.
+    You *must* provide install.st and start.st files right next to the image
+    file.
 Naming
     script.pid  will be used to hold the process id
     image.image is the Smalltalk image that will be started
 Commands:
-    install  run the install script on the image.
-    start    start the server in background
+    install  run install.sh on the image and then quit.
+    start    run the image with start.st in background
     stop     stop the server
     restart  restart the server
-    run      run the server in foreground
     pid      print the process id
 END
     exit 1
 }
-
-# Setup vars
-
-script_home=$(dirname $0)
-script_home=$(cd $script_home && pwd)
-
-command=$2
-image=$3
-
-echo Working directory $script_home
 
 # We need the two arguments.
 if [ "$#" -ne 2 ]; then
     usage
 fi
 
-# Usage:
+# Setup vars
+script_home=$(dirname $0)
+script_home=$(cd $script_home && pwd)
 
-# app install
-# -> Run the install.st script on the image then save and quit
+command=$1
+image=$2
+pid_file="$script_home/$script.pid"
+vm=pharo
 
-# app start
-# -> Run the start.st script on the image. Store the process PID
+echo Working directory $script_home
 
-# app stop
-# -> Check the PID stored when started and kill the process associated with it.
 
-# app restart
-# -> stop and start the app.
+function install() {
+    echo $vm $image install.st
+    $vm $image $st_file
+}
+
+function start() {
+    echo Starting $script in background
+    if [ -e "$pid_file" ]; then
+    rm -f $pid_file
+    fi
+    echo $vm $image start.st
+    $vm $image $st_file 2>&1 >/dev/null &
+    echo $! >$pid_file
+}
+
+function stop() {
+    echo Stopping $script
+    if [ -e "$pid_file" ]; then
+        pid=`cat $pid_file`
+        echo Killing $pid
+    kill $pid
+    rm -f $pid_file
+    else
+        echo Pid file not found: $pid_file
+    echo Searching in process list for $script
+    pids=`ps ax | grep $script | grep -v grep | grep -v $0 | awk '{print $1}'`
+    if [ -z "$pids" ]; then
+            echo No pids found!
+    else
+            for p in $pids; do
+        if [ $p != "$pid" ]; then
+                    echo Killing $p
+                    kill $p
+        fi
+            done
+    fi
+    fi
+}
+
+function restart() {
+    echo Restarting $script
+    stop
+    start
+}
+
+function printpid() {
+    if [ -e $pid_file ]; then
+    cat $pid_file
+    else
+        echo Pid file not found: $pid_file
+    echo Searching in process list for $script
+    pids=`ps ax | grep $script | grep -v grep | grep -v $0 | awk '{print $1}'`
+    if [ -z "$pids" ]; then
+            echo No pids found!
+    else
+        echo $pids
+    fi
+    fi
+}
+
+case $command in
+    install)
+        install
+        ;;
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    pid)
+        printpid
+        ;;
+    *)
+        usage
+        ;;
+esac
