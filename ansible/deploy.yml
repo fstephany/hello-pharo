@@ -34,5 +34,11 @@
         - Pharo-30852.changes
         - PharoV30.sources
 
+    # TODO:
+    # - Install
+    # - Stop current
+    # - link current to the newly deployed script
+    # - Start current
+
     - name: 'Create symoblic link for the current release'
       file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
