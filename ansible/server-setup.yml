@@ -9,7 +9,7 @@
 
   vars:
     stock_images_path: /home/azureuser/stock-images
-    image_url: http://files.pharo.org/image/30/latest.zip
+    image_url: http://files.pharo.org/image/30/30852.zip
     source_url: http://files.pharo.org/sources/PharoV30.sources.zip
 
   tasks:
@@ -43,5 +43,5 @@
     - name: unzip image and source files.
       shell: unzip {{item}} -d {{stock_images_path}}
       with_items:
-        - "{{stock_images_path}}/latest.zip"
+        - "{{stock_images_path}}/30852.zip"
         - "{{stock_images_path}}/PharoV30.sources.zip"
