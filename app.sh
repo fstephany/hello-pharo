@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # This script is inspired by st-exec.sh from http://stfx.eu/pharo-server/
 # originally written by Sven Van Caekenberghe
 
@@ -21,22 +22,17 @@ END
     exit 1
 }
 
-# We need the two arguments.
-if [ "$#" -ne 2 ]; then
-    usage
-fi
-
 # Setup vars
+
 script_home=$(dirname $0)
 script_home=$(cd $script_home && pwd)
 
 command=$1
 image=$2
-pid_file="$script_home/$script.pid"
-vm=pharo
+pid_file="$script_home/pharo.pid"
+vm=/Applications/Pharo.app/Contents/MacOS/Pharo
 
-echo Working directory $script_home
-
+# echo Working directory $script_home
 
 function install() {
     echo $vm $image install.st
@@ -48,8 +44,9 @@ function start() {
     if [ -e "$pid_file" ]; then
     rm -f $pid_file
     fi
+    echo $pid_file
     echo $vm $image start.st
-    $vm $image $st_file 2>&1 >/dev/null &
+    $vm $image start.st 2>&1 >/dev/null &
     echo $! >$pid_file
 }
 
