@@ -12,6 +12,7 @@
     stock_images_path: /home/azureuser/stock-images
     app_path: /home/azureuser/apps/hello-pharo
     repo_path: "{{ app_path }}/base-repo"
+    pid_file: "{{app_path}}/app.pid"
 
   tasks:
     - name: Store the current timestamp
@@ -27,18 +28,23 @@
     - name: Copy the content of the repo into the current deploy directory
       shell: cp -r {{repo_path}}/* {{app_path}}/releases/{{current_time.stdout}}
 
-    - name: Copy the pharo virgin image/changes/source into the deploy directory
-      shell: cp {{stock_images_path}}/{{item}} {{app_path}}/releases/{{current_time.stdout}}/
-      with_items:
-        - Pharo-30852.image
-        - Pharo-30852.changes
-        - PharoV30.sources
+    - name: Copy the pharo virgin image into the deploy directory
+      shell: cp {{stock_images_path}}/Pharo-30852.image {{app_path}}/releases/{{current_time.stdout}}/pharo.image
 
-    # TODO:
-    # - Install
-    # - Stop current
-    # - link current to the newly deployed script
-    # - Start current
+    - name: Copy the pharo virgin changes into the deploy directory
+      shell: cp {{stock_images_path}}/Pharo-30852.changes {{app_path}}/releases/{{current_time.stdout}}/pharo.changes
+
+    - name: Copy the pharo virgin source into the deploy directory
+      shell: cp {{stock_images_path}}/PharoV30.sources {{app_path}}/releases/{{current_time.stdout}}/PharoV30.sources
+
+    - name: Launch the install script on the fresh image
+      shell: {{app_path}}/releases/{{current_time.stdout}}/app install
+
+    - name: Stop the current running app
+      shell: {{app_path}}/releases/current/app stop {{pid_file}}
 
     - name: 'Create symoblic link for the current release'
       file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
+
+    - name: Start the newly deployed app
+      shell: {{app_path}}/releases/current/app start {{pid_file}}

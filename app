@@ -5,17 +5,17 @@
 
 function usage() {
     cat <<END
-Usage: $0 <command> <image>
+Usage: $0 <command>
     manage a Smalltalk server.
     You *must* provide install.st and start.st files right next to the image
     file.
-Naming
-    script.pid  will be used to hold the process id
-    image.image is the Smalltalk image that will be started
+    start and stop command takes an optional pid file. By the default, the
+    pid file will be '${script_home}/pharo.pid'.
+
 Commands:
     install  run install.sh on the image and then quit.
     start    run the image with start.st in background
-    stop     stop the server
+    stop     stop the server.
     restart  restart the server
     pid      print the process id
 END
@@ -28,8 +28,10 @@ script_home=$(dirname $0)
 script_home=$(cd $script_home && pwd)
 
 command=$1
-image=$2
-pid_file="$script_home/pharo.pid"
+image="pharo.image"
+
+echo $pid_file
+
 vm=/Applications/Pharo.app/Contents/MacOS/Pharo
 
 # echo Working directory $script_home
@@ -51,7 +53,7 @@ function start() {
 }
 
 function stop() {
-    echo Stopping $script
+    echo Stopping $pid_file
     if [ -e "$pid_file" ]; then
         pid=`cat $pid_file`
         echo Killing $pid
