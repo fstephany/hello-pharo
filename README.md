@@ -16,6 +16,16 @@ One of the secret goal of HelloPharo is to provide a stack of tools to implement
 
 ## Usage
 
+### Server setup
+
+HelloPharo is developed and tested against virtual machines in Azure. In a nutshell:
+
+* Create an Azure Ubuntu VM
+* Log to it using the username/password given in the administration panel
+* Add your SSH public key in `~/.ssh/authorized_keys` on the server
+* Edit the variable file in the ansible directory
+* Move to the ansible directory and launch server setup: `$ ansible-playbook -i hosts.ini server-setup.yml`
+
 ## Assets
 
 The nginx configuration is made to load assets from the `assets/` folder.

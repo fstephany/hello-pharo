@@ -30,8 +30,9 @@
       sudo: yes
       with_items:
         - nginx
+        - unzip
         - git
-        - pharo-vm-core
+        - pharo-vm-core:i386
         #- pharo-launcher
 
     - name: download latest Pharo 3.0 stock-images
@@ -41,7 +42,8 @@
         - "{{source_url}}"
 
     - name: unzip image and source files.
-      shell: unzip {{item}} -d {{stock_images_path}}
+      # -o to force overwrite existing files
+      shell: unzip -o {{item}} -d {{stock_images_path}}
       with_items:
         - "{{stock_images_path}}/30852.zip"
         - "{{stock_images_path}}/PharoV30.sources.zip"
