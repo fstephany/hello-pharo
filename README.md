@@ -18,13 +18,29 @@ One of the secret goal of HelloPharo is to provide a stack of tools to implement
 
 ### Server setup
 
-HelloPharo is developed and tested against virtual machines in Azure. In a nutshell:
+HelloPharo is developed and tested against virtual machines in Azure.
+
+### Quick
+
+In a nutshell:
 
 * Create an Azure Ubuntu VM
 * Log to it using the username/password given in the administration panel
 * Add your SSH public key in `~/.ssh/authorized_keys` on the server
 * Edit the variable file in the ansible directory
 * Move to the ansible directory and launch server setup: `$ ansible-playbook -i hosts.ini server-setup.yml`
+* Deploy your app with: `$ ansible-playbook -i hosts.ini deploy.yml`
+
+
+### Details
+
+`$ ansible-playbook -i hosts.ini server-setup.yml` will install git, nginx, pharo and
+download the base Pharo3 images. You should run this script only at server startup.
+
+Everytime you want to deploy the master branch of your app, run
+
+    $ ansible-playbook -i hosts.ini deploy.yml
+
 
 ## Assets
 
@@ -43,3 +59,5 @@ There's little chance that we overcome the following limitations:
 
 - VM path detection for OSX/Linux
 - Implement rollback
+- Provide a default preference file (to have, at least, a common package-cache
+  for all the images)

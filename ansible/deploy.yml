@@ -40,11 +40,14 @@
     - name: Launch the install script on the fresh image
       shell: "{{app_path}}/releases/{{current_time.stdout}}/app install"
 
+    # Will throw an error if it is the first deployment or if the pid_file does
+    # not exit.
     - name: Stop the current running app
-      shell: "{{app_path}}/releases/current/app stop {{pid_file}}"
+      shell: "{{app_path}}/current/app stop {{pid_file}}"
+      ignore_errors: True
 
     - name: 'Create symoblic link for the current release'
       file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
 
     - name: Start the newly deployed app
-      shell: "{{app_path}}/releases/current/app start {{pid_file}}"
+      shell: "{{app_path}}/current/app start {{pid_file}}"
