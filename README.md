@@ -58,6 +58,7 @@ There's little chance that we overcome the following limitations:
 ## To Do
 
 - VM path detection for OSX/Linux
-- Implement rollback
 - Provide a default preference file (to have, at least, a common package-cache
   for all the images)
+- symbolic link to assets
+- Implement rollback
