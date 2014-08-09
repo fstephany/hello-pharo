@@ -32,7 +32,11 @@ image="pharo.image"
 
 echo $pid_file
 
-vm=/Applications/Pharo.app/Contents/MacOS/Pharo
+# MacOS X
+# vm=/Applications/Pharo.app/Contents/MacOS/Pharo
+
+# Ubuntu
+vm=pharo-vm-nox
 
 # echo Working directory $script_home
 
