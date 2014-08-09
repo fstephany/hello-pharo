@@ -13,6 +13,6 @@ Gofer it
   package: 'Hello-Pharo';
   load.
 
-FileStream stdout cr; nextPutAll: 'Done.'.
+FileStream stdout cr; nextPutAll: 'Done.'; cr.
 
 Smalltalk snapshot: true andQuit: true.

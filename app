@@ -42,7 +42,7 @@ vm=pharo-vm-nox
 
 function install() {
     echo $vm $image install.st
-    $vm $image $st_file
+    $vm $image install.st
 }
 
 function start() {
