@@ -51,3 +51,8 @@
 
     - name: Start the newly deployed app
       shell: "{{app_path}}/current/app start {{pid_file}}"
+      # This is a "fire and forget" command. In the ideal world we should
+      # daemonize this...
+      # Async the task for 1 year.
+      async: 31536000
+      poll: 0
