@@ -41,4 +41,5 @@ There's little chance that we overcome the following limitations:
 
 ## To Do
 
+- VM path detection for OSX/Linux
 - Implement rollback
