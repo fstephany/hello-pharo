@@ -7,6 +7,7 @@ source_url: http://files.pharo.org/sources/PharoV30.sources.zip
 # App Config
 repo: https://github.com/fstephany/hello-pharo.git
 app_name: hello-pharo
+deploy_user: azureuser
 app_path: /home/azureuser/apps/hello-pharo
 app_domain: hello-pharo.tamere.eu
 port: 8081

@@ -5,7 +5,7 @@
 
 - name: <<<< Deploy a new version of the app >>>>
   hosts: web
-  remote_user: azureuser
+  remote_user: {{ deploy_user }}
   vars_files:
     - vars.yml
 
