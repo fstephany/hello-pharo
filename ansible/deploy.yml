@@ -6,13 +6,8 @@
 - name: <<<< Deploy a new version of the app >>>>
   hosts: web
   remote_user: azureuser
-
-  vars:
-    repo: https://github.com/fstephany/hello-pharo.git
-    stock_images_path: /home/azureuser/stock-images
-    app_path: /home/azureuser/apps/hello-pharo
-    repo_path: "{{ app_path }}/base-repo"
-    pid_file: "{{app_path}}/app.pid"
+  vars_files:
+    - vars.yml
 
   tasks:
     - name: Store the current timestamp

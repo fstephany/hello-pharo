@@ -1,0 +1,15 @@
+
+# Server Config
+stock_images_path: /home/azureuser/stock-images
+image_url: http://files.pharo.org/image/30/30852.zip
+source_url: http://files.pharo.org/sources/PharoV30.sources.zip
+
+# App Config
+repo: https://github.com/fstephany/hello-pharo.git
+app_name: hello-pharo
+app_path: /home/azureuser/apps/hello-pharo
+app_domain: hello.st
+port: 8081
+stock_images_path: /home/azureuser/stock-images
+repo_path: "{{ app_path }}/base-repo"
+pid_file: "{{ app_path }}/app.pid"

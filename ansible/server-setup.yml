@@ -7,10 +7,8 @@
   hosts: web
   remote_user: azureuser
 
-  vars:
-    stock_images_path: /home/azureuser/stock-images
-    image_url: http://files.pharo.org/image/30/30852.zip
-    source_url: http://files.pharo.org/sources/PharoV30.sources.zip
+  vars_files:
+    - vars.yml
 
   tasks:
     - name: Install Pharo's PPA
@@ -33,7 +31,6 @@
         - unzip
         - git
         - pharo-vm-core:i386
-        #- pharo-launcher
 
     - name: download latest Pharo 3.0 stock-images
       get_url: url={{item}} dest={{stock_images_path}}
@@ -47,3 +44,18 @@
       with_items:
         - "{{stock_images_path}}/30852.zip"
         - "{{stock_images_path}}/PharoV30.sources.zip"
+
+    - name: create nginx site configuration file
+      action: template src=templates/nginx-site.conf dest=/etc/nginx/sites-available/{{app_name}}.conf
+      sudo: yes
+      notify:
+        - restart nginx
+
+    - name: Link app name from sites-available to sites-enabled
+      action: file src=/etc/nginx/sites-available/{{app_name}}.conf dest=/etc/nginx/sites-enabled/{{app_name}}.conf state=link
+      sudo: yes
+
+  handlers:
+    - name: restart nginx
+      action: service name=nginx state=restarted
+

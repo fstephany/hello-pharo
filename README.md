@@ -62,3 +62,4 @@ There's little chance that we overcome the following limitations:
   for all the images)
 - symbolic link to assets
 - Implement rollback
+- Handling of production/staging environment
