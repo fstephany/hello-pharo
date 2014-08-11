@@ -48,12 +48,12 @@
     - name: create nginx site configuration file
       action: template src=templates/nginx-site.conf dest=/etc/nginx/sites-available/{{app_name}}.conf
       sudo: yes
-      notify:
-        - restart nginx
 
     - name: Link app name from sites-available to sites-enabled
       action: file src=/etc/nginx/sites-available/{{app_name}}.conf dest=/etc/nginx/sites-enabled/{{app_name}}.conf state=link
       sudo: yes
+      notify:
+        - restart nginx
 
   handlers:
     - name: restart nginx

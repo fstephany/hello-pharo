@@ -8,7 +8,7 @@ source_url: http://files.pharo.org/sources/PharoV30.sources.zip
 repo: https://github.com/fstephany/hello-pharo.git
 app_name: hello-pharo
 app_path: /home/azureuser/apps/hello-pharo
-app_domain: hello.st
+app_domain: hello-pharo.tamere.eu
 port: 8081
 stock_images_path: /home/azureuser/stock-images
 repo_path: "{{ app_path }}/base-repo"
