@@ -16,7 +16,7 @@ Commands:
     install  run install.sh on the image and then quit.
     start    run the image with start.st in background
     stop     stop the server.
-    restart  restart the server
+    deploy   deploy to the server using the `deploy.yml` ansible recipe
     pid      print the process id
 END
     exit 1
@@ -40,6 +40,10 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # echo Working directory $script_home
+
+function deploy() {
+    ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
+}
 
 function install() {
     echo $vm $image install.st
@@ -81,12 +85,6 @@ function stop() {
     fi
 }
 
-function restart() {
-    echo Restarting $script
-    stop
-    start
-}
-
 function printpid() {
     if [ -e $pid_file ]; then
     cat $pid_file
@@ -112,8 +110,8 @@ case $command in
     stop)
         stop
         ;;
-    restart)
-        restart
+    deploy)
+        deploy
         ;;
     pid)
         printpid
