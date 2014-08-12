@@ -1,19 +1,17 @@
 # HelloPharo
 
-HelloPharo is a small code farm that creates a basic project architecture
-for easy deployment.
+HelloPharo is a code farm for Pharo that makes small webapp deployment easy.
 
 It is inspired by [Capistrano](http://capistranorb.com/) and is built on top of
-[Ansible](http://www.ansible.com/home).
+[Ansible](http://www.ansible.com/home). When designing this tool we preferred
+convention over configuration.
 
 This code farm is a starting point. We expect you to tweak the configuration to
-fit your need, we just provide sensible default.
-
-A developer should not have to think too much about the deployment and configuration
-details when he starts to develop a service on the web with pharo.
+fit your need, we just provide sensible default. When you download HelloPharo,
+you see the actual code used to deploy a trivial webapp.
 
 We concentrate on the current stable release of Pharo. This means we've hardcoded the
-pharo version.
+pharo version to Pharo 3.0p852.
 
 One of the secret goal of HelloPharo is to provide a stack of tools to implement a
 [Twelve-factor app](http://12factor.net/).
@@ -30,25 +28,30 @@ Make sure the app runs on your machine before even trying on the remote server.
    [Homebrew](http://brew.sh/). Windows user you're out of luck, Ansible does not
    support Windows (yet), sorry!
 1. Download the latest version by clicking `Download ZIP` in github and unzip it.
+   You can rename the directory to match your project name. In these instructions
+   we'll assume that the directory is called `hello-pharo`.
 2. Download the latest pharo 3 image, changes and sources file. We use
-  http://files.pharo.org/image/30/30852.zip and http://files.pharo.org/sources/PharoV30.sources.zip
+   http://files.pharo.org/image/30/30852.zip and
+   http://files.pharo.org/sources/PharoV30.sources.zip
 3. Rename the files as `pharo.image` and `pharo.changes` and copy them in the newly
-  created `hello-pharo` directory. Copy the `PharoV30.sources` as well.
+   created `hello-pharo` directory. Copy the `PharoV30.sources` as well.
 4. Open a terminal and navigate to the `hello-pharo` directory.
-5. Avoid getting some junk in your git repository: `$ cp gitignore.example .gitignore`
+5. Avoid getting some junk in your git repository: `$ cp gitignore.example .gitignore`.
+   Edit the gitignore file as you wish but don't include the image/changes files in
+   the git repo.
 6. Edit the `install.st` script to load your code. We usually put our code in
    the `src/` directory but feel free to load anything from anywhere (e.g., Smalltalkhub).
-   Do not delete the "save and quit" instruction from the script, it will make your
-   server hangs when you deploy.
+   Do not delete the "save and quit" instruction from the script, otherwise your
+   server will hangs when you deploy.
 7. Edit the `start.st` script. It's a good place to start your Zinc servers or any
    long-running smalltalk tasks.
 
 You're now ready to go:
 
-  $ ./app install
-  $ ./app start
+    $ ./app install
+    $ ./app start
 
-The instal command can take some time as it will load all your code and its dependencies.
+The install command can take some time as it will load all your code and its dependencies.
 
 Test if everything runs fine. Beware that there should NOT have any GUI interaction
 during the install and start phase. Things will run headless on the server so you
@@ -56,7 +59,7 @@ won't be able to do anything.
 
 When you're done, you can:
 
-  $ ./app stop
+    $ ./app stop
 
 This will exit the image.
 
@@ -71,12 +74,14 @@ In a nutshell:
 * Make this user sudoable (so you can install packages)
 * Add your SSH public key in `~/.ssh/authorized_keys` on the server for the deploy user.
   This will let you without entering any password.
-* Edit the `hosts.ini` and `vars.yml` file in the ansible directory to match your setup
+* Edit the `hosts.ini` and `vars.yml` file in the ansible directory to match your setup.
 * Launch automated server setup with: `$ ansible-playbook -i ansible/hosts.ini ansible/server-setup.yml`
 * Deploy your app with: `$ ./app deploy`
 * Use [DeployUtils](http://smalltalkhub.com/#!/~TaMere/DeployUtils) to handle environment within your image (set the `pharo_env` variable in hosts definitions)
 
-The troubleshooting section contains some stuff that you might have forgotten...
+Everytime you want to deploy the master branch of your app, run
+
+    $ ./app deploy
 
 ### Details
 
@@ -85,10 +90,6 @@ The troubleshooting section contains some stuff that you might have forgotten...
 will install git, unzip, nginx, pharo-vm and download the base Pharo3 images.
 It will also create an nginx configuration file for your project (see
 `ansible/templates/nginx-site.conf` for details).
-
-Everytime you want to deploy the master branch of your app, run
-
-	$ ./app deploy
 
 ## Troubleshooting
 
@@ -103,6 +104,9 @@ Everytime you want to deploy the master branch of your app, run
   same you defined in `port` variable in `vars.yml`. If you see a mismatch and you
   have already run the server-setup script, you want to rerun it to update the
   nginx configuration file.
+
+Ping me on twitter [@fstephany](http://twitter.com/fstephany) or send an email
+to the pharo-users mailing list if something goes wrong.
 
 ## Assets
 
@@ -127,7 +131,7 @@ want/need one the following, bounties are always possible ;)
 
 * Use version number. Right now we use the `master` branch of the project but we
   really should move to a more robust way to release.
-* Provide a "bootstrap" script that performs the steps described in the quick
+* Provide a "bootstrap" script that performs the steps 2 and 3 of the quick
   install section.
 * Be able the choose the branch from which to deploy (currently `master` is always
   used)
@@ -140,3 +144,11 @@ want/need one the following, bounties are always possible ;)
 * Separate deploy user with the server-setup user. The deploy user does not need
   sudo root.
 * Download and use VMs instead of the Ubuntu PPA so we can deploy on other unix boxes.
+
+## Credits
+
+Hello-Pharo is developed by [Ta Mère SCRL](http://tamere.eu). We
+
+* build apps for clients,
+* provide training/coaching,
+* eat a lot of french fries.
