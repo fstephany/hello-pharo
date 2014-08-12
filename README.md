@@ -12,6 +12,9 @@ fit your need, we just provide sensible default.
 A developer should not have to think too much about the deployment and configuration
 details when he starts to develop a service on the web with pharo.
 
+We concentrate on the current stable release of Pharo. This means we've hardcoded the
+pharo version.
+
 One of the secret goal of HelloPharo is to provide a stack of tools to implement a
 [Twelve-factor app](http://12factor.net/).
 
@@ -23,6 +26,9 @@ Make sure the app runs on your machine before even trying on the remote server.
 
 #### On your local machine
 
+0. Install ansible if you don't have it yet. If you're on OSX, we recommend using
+   [Homebrew](http://brew.sh/). Windows user you're out of luck, Ansible does not
+   support Windows (yet), sorry!
 1. Download the latest version by clicking `Download ZIP` in github and unzip it.
 2. Download the latest pharo 3 image, changes and sources file. We use
   http://files.pharo.org/image/30/30852.zip and http://files.pharo.org/sources/PharoV30.sources.zip
@@ -119,6 +125,8 @@ There's little chance that we overcome the following limitations:
 Feel free to work on this and send a pull request to the project. If you badly
 want/need one the following, bounties are always possible ;)
 
+* Use version number. Right now we use the `master` branch of the project but we
+  really should move to a more robust way to release.
 * Provide a "bootstrap" script that performs the steps described in the quick
   install section.
 * Be able the choose the branch from which to deploy (currently `master` is always
