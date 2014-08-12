@@ -1,15 +1,52 @@
 
-# Server Config
-stock_images_path: /home/azureuser/stock-images
+# ==============================================================================
+# App Config
+# You probably want to change the 5 following variables to match your setup
+# ==============================================================================
+
+# This guy should be a sudoer and you should add your local SSH public key
+# in the authorized keys of this user.
+deploy_user: azureuser
+
+# Be gentle here, don't use uppercase or space characters.
+app_name: hello-pharo
+
+# Don't forget to generate a pair of SSH keys on the server if this
+# git repo is private. The server will directly clone this URL so you want
+# to make sure the deployment keys are correctly set.
+repo: https://github.com/fstephany/hello-pharo.git
+
+# The domain from which your app is visible to the world.
+# This variable will be use when configuring the virtual host of
+# the webserver
+app_domain: hello-pharo.tamere.eu
+
+# The port on which you'll start your Zinc/Seaside/Whatever server.
+# Beware that it must match the port you use in `startOn:`-kind method
+# in `start.st`.
+port: 8081
+
+
+# ==============================================================================
+# Optional configuration
+# There's no need to change the following variables unless you know what you're
+# doing.
+# ==============================================================================
+
+# Directory where the virgin pharo images will be downloaded. This directory
+# can be common to many apps
+stock_images_path: "/home/{{ deploy_user }}/stock-images"
+
+# This is where your app will live.
+app_path: "/home/{{ deploy_user }}/apps/{{ app_name }}"
+
+# Directory where the git repo of the app will be cloned.
+repo_path: "{{ app_path }}/base-repo"
+
+# PID file of the currently running Pharo instance. Useful if you want to kill
+# the process by hand.
+pid_file: "{{ app_path }}/app.pid"
+
+# URLs from which Pharo images will be downloaded.
 image_url: http://files.pharo.org/image/30/30852.zip
 source_url: http://files.pharo.org/sources/PharoV30.sources.zip
-
-# App Config
-repo: https://github.com/fstephany/hello-pharo.git
-app_name: hello-pharo
-deploy_user: azureuser
-app_path: /home/azureuser/apps/hello-pharo
-app_domain: hello-pharo.tamere.eu
-port: 8081
-repo_path: "{{ app_path }}/base-repo"
-pid_file: "{{ app_path }}/app.pid"
