@@ -36,12 +36,12 @@ In a nutshell:
 
 ### Details
 
-`$ ansible-playbook -i hosts.ini server-setup.yml` will install git, nginx, pharo and
+`$ ansible-playbook -i ansible/hosts.ini ansible/server-setup.yml` will install git, nginx, pharo and
 download the base Pharo3 images. You should run this script only at server startup.
 
 Everytime you want to deploy the master branch of your app, run
 
-    $ ansible-playbook -i hosts.ini deploy.yml
+    $ ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
 
 
 ## Assets
