@@ -29,27 +29,25 @@ In a nutshell:
 * Create a user with which you want to deploy (e.g., `deploy`)
 * Make this user sudoable (so you can install packages)
 * Add your SSH public key in `~/.ssh/authorized_keys` on the server for the deploy user.
-* Edit the `vars.yml` file in the ansible directory to match yout setup
-* Move to the ansible directory and launch server setup: `$ ansible-playbook -i hosts.ini server-setup.yml`
-* Deploy your app with: `$ ansible-playbook -i hosts.ini deploy.yml`
-* Use [DeployUtils](http://smalltalkhub.com/#!/~TaMere/DeployUtils) to handle environment (set the `pharo_env` variable in hosts definitions)
+* Edit the `hosts.ini` and `vars.yml` file in the ansible directory to match your setup
+* Launch automated server setup with: `$ ansible-playbook -i ansible/hosts.ini ansible/server-setup.yml`
+* Deploy your app with: `$ ./app deploy`
+* Use [DeployUtils](http://smalltalkhub.com/#!/~TaMere/DeployUtils) to handle environment within your image (set the `pharo_env` variable in hosts definitions)
 
 
 ### Details
 
-`$ ansible-playbook -i ansible/hosts.ini ansible/server-setup.yml` will install git, nginx, pharo and
-download the base Pharo3 images. You should run this script only at server startup.
+`$ ansible-playbook -i ansible/hosts.ini ansible/server-setup.yml` will install git, unzip, nginx, pharo and
+download the base Pharo3 images. It will also create an nginx configuration file for your project (see `ansible/templates/nginx-site.conf` for details).
 
 Everytime you want to deploy the master branch of your app, run
 
-    $ ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
-    or the shortest version:
-    $ ./app deploy
-
+	$ ./app deploy
+	# which simply call: ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
 
 ## Assets
 
-The nginx configuration is made to load assets from the `assets/` folder.
+The nginx configuration will directly serve the files located in `public/` folder.
 
 ## Known limitations
 

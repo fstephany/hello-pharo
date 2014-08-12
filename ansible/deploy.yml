@@ -41,7 +41,7 @@
       shell: "{{app_path}}/current/app stop {{pid_file}}"
       ignore_errors: True
 
-    - name: 'Create symoblic link for the current release'
+    - name: 'Create symbolic link for the current release'
       file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
 
     - name: Start the newly deployed app
