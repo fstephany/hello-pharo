@@ -33,11 +33,11 @@ pid_file=${2:-"$script_home/pharo.pid"}
 
 echo $pid_file
 
-# MacOS X
-# vm=/Applications/Pharo.app/Contents/MacOS/Pharo
-
-# Ubuntu
-vm=pharo-vm-nox
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    vm=pharo-vm-nox
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    vm=/Applications/Pharo.app/Contents/MacOS/Pharo
+fi
 
 # echo Working directory $script_home
 
