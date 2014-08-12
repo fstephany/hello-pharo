@@ -45,7 +45,7 @@
       file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
 
     - name: Start the newly deployed app
-      shell: "{{app_path}}/current/app start {{pid_file}}"
+      shell: "PHARO_ENV={{ pharo_env }} {{app_path}}/current/app start {{pid_file}}"
       # This is a "fire and forget" command. In the ideal world we should
       # daemonize this...
       # Async the task for 1 year.
