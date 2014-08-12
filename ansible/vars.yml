@@ -11,6 +11,5 @@ deploy_user: azureuser
 app_path: /home/azureuser/apps/hello-pharo
 app_domain: hello-pharo.tamere.eu
 port: 8081
-stock_images_path: /home/azureuser/stock-images
 repo_path: "{{ app_path }}/base-repo"
 pid_file: "{{ app_path }}/app.pid"
