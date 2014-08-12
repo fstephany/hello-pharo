@@ -32,6 +32,9 @@
         - git
         - pharo-vm-core:i386
 
+    - name: Creates stock-images directory
+      file: path={{ stock_images_path }} state=directory
+
     - name: download latest Pharo 3.0 stock-images
       get_url: url={{item}} dest={{stock_images_path}}
       with_items:

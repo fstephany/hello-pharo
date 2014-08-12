@@ -18,7 +18,7 @@
       file: path="{{app_path}}/releases/{{current_time.stdout}}" state=directory
 
     - name: Get/Update the git repository
-      git: repo={{repo}} dest={{repo_path}}
+      git: repo={{repo}} dest={{repo_path}} accept_hostkey=true
 
     - name: Copy the content of the repo into the current deploy directory
       shell: cp -r {{repo_path}}/* {{app_path}}/releases/{{current_time.stdout}}
