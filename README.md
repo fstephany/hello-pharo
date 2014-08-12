@@ -34,6 +34,7 @@ In a nutshell:
 * Deploy your app with: `$ ./app deploy`
 * Use [DeployUtils](http://smalltalkhub.com/#!/~TaMere/DeployUtils) to handle environment within your image (set the `pharo_env` variable in hosts definitions)
 
+See the Troubleshooting section for more information if you run into troubles.
 
 ### Details
 
@@ -43,7 +44,19 @@ download the base Pharo3 images. It will also create an nginx configuration file
 Everytime you want to deploy the master branch of your app, run
 
 	$ ./app deploy
-	# which simply call: ansible-playbook -i ansible/hosts.ini ansible/deploy.yml
+
+## Troubleshooting
+
+* If the git repo containing your code is private, don't forget to generate a
+  pair of SSH keys on the server and add the public key as a deployment key in
+  the interface of your git repository provider.
+* Try to install/start the app on your local machine before even trying on the
+  remote server.
+* If you're using a cloud service provider (e.g., AWS, Azure, Google), don't forget to
+  open the port 80 in the administration interface.
+* Be sure that the port on which you start the application (in `start.st`) is the
+  same you defined in `port` variable in `vars.yml`
+
 
 ## Assets
 
