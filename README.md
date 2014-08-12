@@ -75,7 +75,10 @@ In a nutshell:
 * Add your SSH public key in `~/.ssh/authorized_keys` on the server for the deploy user.
   This will let you without entering any password.
 * Edit the `hosts.ini` and `vars.yml` file in the ansible directory to match your setup.
+* Make sure, you've pushed your code in the git repository defined in the `repo`
+  variable of the `ansible/vars.yml` file.
 * Launch automated server setup with: `$ ansible-playbook -i ansible/hosts.ini ansible/server-setup.yml`
+* See the troubleshooting section if something goes wrong.
 * Deploy your app with: `$ ./app deploy`
 * Use [DeployUtils](http://smalltalkhub.com/#!/~TaMere/DeployUtils) to handle environment within your image (set the `pharo_env` variable in hosts definitions)
 
