@@ -5,7 +5,7 @@
 
 - name: <<<< Setup a server for Pharo app >>>>
   hosts: web
-  remote_user: {{ deploy_user }}
+  remote_user: "{{ deploy_user }}"
 
   vars_files:
     - vars.yml
