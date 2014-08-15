@@ -132,6 +132,8 @@ There's little chance that we overcome the following limitations:
 Feel free to work on this and send a pull request to the project. If you badly
 want/need one the following, bounties are always possible ;)
 
+* Add an ansible vault for productin app config file
+* Use Monit for process monitoring
 * Use version number. Right now we use the `master` branch of the project but we
   really should move to a more robust way to release.
 * Provide a "bootstrap" script that performs the steps 2 and 3 of the quick
