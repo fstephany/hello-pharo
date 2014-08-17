@@ -94,6 +94,70 @@ will install git, unzip, nginx, pharo-vm and download the base Pharo3 images.
 It will also create an nginx configuration file for your project (see
 `ansible/templates/nginx-site.conf` for details).
 
+## Local Directory Structure
+
+HelloPharo expects a strict directoy structure for your project. This section explains it. Notice that `pharo.changes`, `pharo.image` and `PharoV30.sources` *must* be in the `.gitignore` file.
+
+    ├── LICENSE
+    ├── PharoV30.sources
+    ├── README.md
+    ├── ansible
+    │   ├── deploy.yml
+    │   ├── hosts.ini
+    │   ├── server-setup.yml
+    │   ├── templates
+    │   │   └── nginx-site.conf
+    │   └── vars.yml
+    ├── app
+    ├── config
+    │   ├── development.json
+    │   └── production.json
+    ├── install.st
+    ├── pharo.changes
+    ├── pharo.image
+    ├── public
+    │   ├── 404.html
+    │   ├── 500.html
+    │   └── assets
+    │       └── pharo-logo.png
+    ├── src
+    │   └── # Your Pharo/Filetree code
+    └── start.st
+
+### `install.st` and `start.st`
+
+The `install.st` script will be used to build the image containing your application. You should load your code and all its dependencies in here. The default `install.st` file shows you how it is done for the super simple example we provide. **Don't forget to save & quit the image at the end of this script**.
+
+### `app`
+
+This bash script is one of the central piece of HelloPharo. It can install/start/stop a project. Most useful commands:
+
+   $ ./app install
+   $ ./app start
+   $ ./app stop
+   
+Read its comment for more information.
+
+### `ansible/` directory
+
+This directory contains all the server administration code. You should update the `vars.yml` and `hosts.ini` to match your setup. Please read the *Server Directory Structure* for more details.
+
+### `public/` directoy
+
+Put all your static file that should be rendered by the webserver here. Note that items in `public/assets` will be gzipped before being served. It's a good place for your CSS/Javascripts files. 
+
+### `config/` directory
+
+Place here your environment files. Usually named `production.json`, `staging.json` and `development.json` these files contain the configuration of your app for each environment. Use the [DeployUtils](http://smalltalkhub.com/#!/~TaMere/DeployUtils) smalltalk package to use them within your image.
+
+Environment files are the right place to put the database connection information (username, port, host, password) or external API Key you use (transactional email provider for example).
+
+
+## Server Directory Structure
+
+TODO: show the the directory hierarchy on the server.
+
+
 ## Troubleshooting
 
 * If the git repo containing your code is private, don't forget to generate a
@@ -107,6 +171,8 @@ It will also create an nginx configuration file for your project (see
   same you defined in `port` variable in `vars.yml`. If you see a mismatch and you
   have already run the server-setup script, you want to rerun it to update the
   nginx configuration file.
+* Are `pharo.changes`, `pharo.image` and `PharoV30.sources` in your `.gitignore
+  file.
 
 Ping me on twitter [@fstephany](http://twitter.com/fstephany) or send an email
 to the pharo-users mailing list if something goes wrong.
@@ -157,3 +223,6 @@ Hello-Pharo is developed by [Ta Mère SCRL](http://tamere.eu). We
 * build apps for clients,
 * provide training/coaching,
 * eat a lot of french fries.
+
+The `app` shell script is heavily inspired by `st-exec.sh` from [http://stfx.eu/pharo-server/](http://stfx.eu/pharo-server/) by Sven Van Caekenberghe
+
