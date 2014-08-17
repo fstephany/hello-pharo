@@ -46,6 +46,8 @@ Make sure the app runs on your machine before even trying on the remote server.
 7. Edit the `start.st` script. It's a good place to start your Zinc servers or any
    long-running smalltalk tasks.
 
+Check the *Local Directory Structure*  section for more details about the directory structure you should adopt and the convention to follow.
+
 You're now ready to go:
 
     $ ./app install
@@ -124,19 +126,41 @@ HelloPharo expects a strict directoy structure for your project. This section ex
     │   └── # Your Pharo/Filetree code
     └── start.st
 
+### `pharo.changes`, `pharo.image`, `PharoV30.sources`
+
+By default, those three  files are not there, download:
+
+* [The image and changes files](http://files.pharo.org/image/30/30852.zip)
+* [The sources file](http://files.pharo.org/sources/PharoV30.sources.zip)
+
+Rename the changes and image files to `pharo.changes` and `pharo.image`. Move them to the project directory.
+
+List these three files in the `.gitignore` or simply copy the `gitignore.example` file.
+
+
 ### `install.st` and `start.st`
 
 The `install.st` script will be used to build the image containing your application. You should load your code and all its dependencies in here. The default `install.st` file shows you how it is done for the super simple example we provide. **Don't forget to save & quit the image at the end of this script**.
+
+`start.st` is executed when you start the app. You should start your Zinc server/Seaside adapter/database connection/whatever in here. Note that you **should not save the image in `start.st`**
 
 ### `app`
 
 This bash script is one of the central piece of HelloPharo. It can install/start/stop a project. Most useful commands:
 
-   $ ./app install
-   $ ./app start
-   $ ./app stop
+    $ ./app install  
+    # will execute the install.st script against the image
+    
+    $ ./app start 
+    # will execute the start.st script against the image and store the PID of the process
+    
+    $ ./app stop 
+    # will kill the saved PID
    
-Read its comment for more information.
+Those three commands works on your development machine as well as on the remote server. We advise you to use them during development to make sure they are working well before trying to deploy.
+
+    $ ./app deploy
+    # will start the deployment process 
 
 ### `ansible/` directory
 
@@ -145,6 +169,8 @@ This directory contains all the server administration code. You should update th
 ### `public/` directoy
 
 Put all your static file that should be rendered by the webserver here. Note that items in `public/assets` will be gzipped before being served. It's a good place for your CSS/Javascripts files. 
+
+Nginx will render the `404.html` and `500.html` from this directory. You probably want to tune them.
 
 ### `config/` directory
 
@@ -177,9 +203,6 @@ TODO: show the the directory hierarchy on the server.
 Ping me on twitter [@fstephany](http://twitter.com/fstephany) or send an email
 to the pharo-users mailing list if something goes wrong.
 
-## Assets
-
-The nginx configuration will directly serve the files located in `public/` folder.
 
 ## Known limitations
 
