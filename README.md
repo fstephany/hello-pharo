@@ -233,13 +233,13 @@ This is the directory where the clean images are stored. Everytime you deploy,
 HelloPharo will build your project from the image in this directory. You should
 not have to modified this.
 
-### `~/apps/
+### `~/apps/`
 
 This is where all your apps will reside. In this example, we have only one application:
 *hello-pharo*. If we had other apps, we would just have them here as well.
 
 
-### ### `~/apps/<app_name>`
+### `~/apps/<app_name>`
 
 **app_name** is defined in the `vars.yml` file. It contains 4 important things:
 
