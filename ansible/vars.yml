@@ -50,3 +50,5 @@ pid_file: "{{ app_path }}/app.pid"
 # URLs from which Pharo images will be downloaded.
 image_url: http://files.pharo.org/image/30/30852.zip
 source_url: http://files.pharo.org/sources/PharoV30.sources.zip
+
+# current_deploy_path: {{app_path}}/releases/{{current_time}}
