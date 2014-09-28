@@ -14,8 +14,12 @@
       shell: date '+%F.%H%M%S'
       register: current_time
 
+    - name: Name release directory
+      command: echo "{{app_path}}/releases/{{current_time.stdout}}"
+      register: release_path
+
     - name: Create directory for current deploy
-      file: path="{{app_path}}/releases/{{current_time.stdout}}" state=directory
+      file: path="{{ release_path }}" state=directory recurse=yes
 
     - name: Get/Update the git repository
       git: repo={{repo}} dest={{repo_path}} accept_hostkey=true
@@ -24,16 +28,16 @@
       shell: cp -r {{repo_path}}/* {{app_path}}/releases/{{current_time.stdout}}
 
     - name: Copy the pharo virgin image into the deploy directory
-      shell: cp {{stock_images_path}}/Pharo-30852.image {{app_path}}/releases/{{current_time.stdout}}/pharo.image
+      shell: cp {{stock_images_path}}/Pharo-30852.image {{ release_path }}/pharo.image
 
     - name: Copy the pharo virgin changes into the deploy directory
-      shell: cp {{stock_images_path}}/Pharo-30852.changes {{app_path}}/releases/{{current_time.stdout}}/pharo.changes
+      shell: cp {{stock_images_path}}/Pharo-30852.changes {{ release_path }}/pharo.changes
 
     - name: Copy the pharo virgin source into the deploy directory
-      shell: cp {{stock_images_path}}/PharoV30.sources {{app_path}}/releases/{{current_time.stdout}}/PharoV30.sources
+      shell: cp {{stock_images_path}}/PharoV30.sources {{ release_path }}/PharoV30.sources
 
     - name: Launch the install script on the fresh image
-      shell: "{{app_path}}/releases/{{current_time.stdout}}/app install"
+      shell: "{{ release_path }}/app install"
 
     # Will throw an error if it is the first deployment or if the pid_file does
     # not exit.
@@ -42,7 +46,7 @@
       ignore_errors: True
 
     - name: 'Create symbolic link for the current release'
-      file: dest={{app_path}}/current src={{app_path}}/releases/{{current_time.stdout}} state=link
+      file: dest={{app_path}}/current src={{ release_path }} state=link
 
     - name: Start the newly deployed app
       shell: "PHARO_ENV={{ pharo_env }} {{app_path}}/current/app start {{pid_file}}"
