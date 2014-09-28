@@ -5,10 +5,6 @@
 | gitRepository |
 
 
-Metacello new
-  githubUser: 'fstephany' project: 'DeployUtils' commitish: '' path: 'repository'.
-
-
 FileStream stdout cr; nextPutAll: 'Installing Hello-Pharo'; cr.
 
 gitRepository := MCFileTreeRepository new directory: (FileLocator imageDirectory / 'src').
